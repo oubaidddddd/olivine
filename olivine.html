@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olivine - Plateforme Agricole Connectée</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --rose-pastel: #f8c8dc;
+            --mauve-pastel: #d8bfd8;
+            --rose-clair: #fae1e1;
+            --mauve-clair: #e6e6fa;
+            --vert-olive: #b8c480;
+            --vert-clair: #d8e2c0;
+            --texte-fonce: #5a4a6a;
+            --blanc: #ffffff;
+            --rouge-erreur: #e74c3c;
+            --vert-succes: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--rose-clair), var(--mauve-clair));
+            color: var(--texte-fonce);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--texte-fonce);
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            font-size: 2rem;
+        }
+
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: var(--blanc);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn.active {
+            background: var(--rose-pastel);
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .main-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--texte-fonce);
+        }
+
+        .main-subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .selection-cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--vert-olive);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .card-description {
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            background: var(--blanc);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--rose-pastel);
+        }
+
+        .page-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem;
+        }
+
+        .form-container {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--mauve-pastel);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(216, 191, 216, 0.3);
+        }
+
+        .form-input.error {
+            border-color: var(--rouge-erreur);
+        }
+
+        .error-message {
+            color: var(--rouge-erreur);
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn {
+            background: var(--mauve-pastel);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            color: var(--texte-fonce);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: var(--rose-pastel);
+            transform: translateY(-2px);
+        }
+
+        .btn-large {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            background: var(--rose-clair);
+        }
+
+        .btn-secondary:hover {
+            background: var(--rose-pastel);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .auth-switch a {
+            color: var(--texte-fonce);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styles pour les catégories */
+        .categories-section {
+            margin-bottom: 30px;
+        }
+
+        .categories-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--texte-fonce);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            background: var(--rose-clair);
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--vert-olive);
+        }
+
+        .category-name {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .farmers-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .farmer-card {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .farmer-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .products-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .product-card {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: var(--vert-clair);
+        }
+
+        .product-farmer {
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .add-to-cart {
+            background: var(--mauve-pastel);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: var(--texte-fonce);
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            background: var(--rose-pastel);
+        }
+
+        .cart-section {
+            margin-top: 30px;
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+
+        .product-form {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            background: var(--rose-clair);
+            transition: all 0.3s ease;
+        }
+
+        .file-input:hover {
+            background: var(--rose-pastel);
+        }
+
+        .methods-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .method-card {
+            background: var(--blanc);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .method-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .method-detail {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .method-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: var(--vert-clair);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            margin-top: 15px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .order-confirmation {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .order-success-icon {
+            font-size: 4rem;
+            color: var(--vert-succes);
+            margin-bottom: 20px;
+        }
+
+        /* Améliorations pour mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+           
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+           
+            .logo {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+           
+            .lang-selector {
+                width: 100%;
+                justify-content: center;
+            }
+           
+            .main-title {
+                font-size: 2.2rem;
+            }
+           
+            .main-subtitle {
+                font-size: 1rem;
+            }
+           
+            .card {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+           
+            .card-icon {
+                font-size: 2rem;
+            }
+           
+            .card-title {
+                font-size: 1.3rem;
+            }
+           
+            .page-title {
+                font-size: 1.8rem;
+            }
+           
+            .form-container {
+                padding: 20px;
+            }
+           
+            .categories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+           
+            .category-card {
+                padding: 15px;
+            }
+           
+            .category-icon {
+                font-size: 1.5rem;
+            }
+           
+            .farmers-list {
+                grid-template-columns: 1fr;
+            }
+           
+            .products-list {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+           
+            .methods-list {
+                grid-template-columns: 1fr;
+            }
+           
+            .method-detail {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+           
+            .logo {
+                font-size: 1.6rem;
+            }
+           
+            .main-title {
+                font-size: 1.8rem;
+            }
+           
+            .page-title {
+                font-size: 1.6rem;
+            }
+           
+            .card {
+                padding: 15px;
+            }
+           
+            .form-container {
+                padding: 15px;
+            }
+           
+            .categories-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+           
+            .products-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">🌿</span>
+                <span class="logo-text">Olivine</span>
+            </div>
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="fr">Français</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="ar">العربية</button>
+            </div>
+        </header>
+
+        <!-- Page principale -->
+        <section id="main-page" class="page active">
+            <div class="main-section">
+                <h1 class="main-title" data-translate="welcome">Bienvenue sur Olivine</h1>
+                <p class="main-subtitle" data-translate="subtitle">La plateforme qui connecte les agriculteurs tunisiens et les acheteurs, et promeut des méthodes agricoles durables et intelligentes.</p>
+               
+                <div class="selection-cards">
+                    <div class="card" onclick="showPage('buyer-page')">
+                        <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <h2 class="card-title" data-translate="buyer">Acheteur</h2>
+                        <p class="card-description" data-translate="buyer_description">Achetez des produits frais directement auprès des agriculteurs locaux de votre région.</p>
+                    </div>
+                   
+                    <div class="card" onclick="showPage('seller-page')">
+                        <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+                        <h2 class="card-title" data-translate="seller">Vendeur</h2>
+                        <p class="card-description" data-translate="seller_description">Vendez vos produits agricoles et connectez-vous avec des acheteurs locaux.</p>
+                    </div>
+                   
+                    <div class="card" onclick="showPage('learning-page')">
+                        <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h2 class="card-title" data-translate="learning_hub">Learning Hub</h2>
+                        <p class="card-description" data-translate="learning_description">Découvrez des méthodes d'agriculture intelligente et respectueuse de l'environnement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Acheteur -->
+        <section id="buyer-page" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('main-page')">←</button>
+                <h2 class="page-title" data-translate="buyer_space">Espace Acheteur</h2>
+            </div>
+           
+            <!-- Formulaire de connexion acheteur -->
+            <div id="buyer-login" class="form-container">
+                <h3 style="text-align: center; margin-bottom: 20px;" data-translate="buyer_login">Connexion Acheteur</h3>
+                <div class="form-group">
+                    <label class="form-label" data-translate="email">Email</label>
+                    <input type="email" class="form-input" id="buyer-login-email" placeholder="votre@email.com">
+                    <div class="error-message" id="buyer-login-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="password">Mot de passe</label>
+                    <input type="password" class="form-input" id="buyer-login-password" placeholder="Votre mot de passe">
+                    <div class="error-message" id="buyer-login-password-error"></div>
+                </div>
+                <button class="btn btn-large" onclick="loginBuyer()" data-translate="login">Se connecter</button>
+                <div class="auth-switch">
+                    <p data-translate="no_account">Pas encore de compte ? <a onclick="showBuyerRegister()" data-translate="create_account">Créer un compte</a></p>
+                </div>
+            </div>
+           
+            <!-- Formulaire d'inscription acheteur -->
+            <div id="buyer-register" class="form-container" style="display: none;">
+                <h3 style="text-align: center; margin-bottom: 20px;" data-translate="buyer_register">Inscription Acheteur</h3>
+                <div class="form-group">
+                    <label class="form-label" data-translate="full_name">Nom complet</label>
+                    <input type="text" class="form-input" id="buyer-register-name" placeholder="Votre nom complet">
+                    <div class="error-message" id="buyer-register-name-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="email">Email</label>
+                    <input type="email" class="form-input" id="buyer-register-email" placeholder="votre@email.com">
+                    <div class="error-message" id="buyer-register-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="password">Mot de passe</label>
+                    <input type="password" class="form-input" id="buyer-register-password" placeholder="Minimum 8 caractères">
+                    <div class="error-message" id="buyer-register-password-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" class="form-input" id="buyer-register-confirm-password" placeholder="Confirmez votre mot de passe">
+                    <div class="error-message" id="buyer-register-confirm-password-error"></div>
+                </div>
+                <button class="btn btn-large" onclick="registerBuyer()" data-translate="create_account">Créer mon compte</button>
+                <div class="auth-switch">
+                    <p data-translate="already_account">Déjà un compte ? <a onclick="showBuyerLogin()" data-translate="login">Se connecter</a></p>
+                </div>
+            </div>
+           
+            <div id="buyer-content" style="display: none;">
+                <!-- Section des catégories -->
+                <div class="categories-section">
+                    <h3 class="categories-title" data-translate="product_categories">Catégories de produits</h3>
+                    <div class="categories-grid" id="categories-container">
+                        <!-- Les catégories seront ajoutées dynamiquement ici -->
+                    </div>
+                </div>
+
+                <!-- Section des agriculteurs -->
+                <div id="farmers-section">
+                    <h3 style="margin-bottom: 20px;" data-translate="farmers_nearby">Agriculteurs près de chez vous</h3>
+                    <div class="farmers-list" id="farmers-list-container">
+                        <!-- Les agriculteurs seront ajoutés dynamiquement ici -->
+                    </div>
+                </div>
+               
+                <!-- Produits par catégorie -->
+                <div id="category-products" style="display: none;">
+                    <div class="page-header">
+                        <button class="back-btn" onclick="backToCategories()">←</button>
+                        <h3 id="selected-category-name" class="page-title"></h3>
+                    </div>
+                    <div class="products-list" id="category-products-container"></div>
+                </div>
+               
+                <!-- Produits de l'agriculteur sélectionné -->
+                <div id="farmer-products" style="display: none;">
+                    <div class="page-header">
+                        <button class="back-btn" onclick="backToFarmers()">←</button>
+                        <h3 id="selected-farmer-name" class="page-title"></h3>
+                    </div>
+                    <div class="products-list" id="products-container"></div>
+                </div>
+               
+                <!-- Panier -->
+                <div class="cart-section">
+                    <h3 class="cart-title" data-translate="your_cart">Votre Panier</h3>
+                    <div id="cart-items"></div>
+                    <div class="cart-total" id="cart-total" data-translate="total">Total: 0 DT</div>
+                    <button class="btn btn-large" onclick="showOrderConfirmation()" data-translate="place_order">Passer la commande</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Vendeur -->
+        <section id="seller-page" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('main-page')">←</button>
+                <h2 class="page-title" data-translate="seller_space">Espace Vendeur</h2>
+            </div>
+           
+            <!-- Formulaire de connexion vendeur -->
+            <div id="seller-login" class="form-container">
+                <h3 style="text-align: center; margin-bottom: 20px;" data-translate="seller_login">Connexion Vendeur</h3>
+                <div class="form-group">
+                    <label class="form-label" data-translate="email">Email</label>
+                    <input type="email" class="form-input" id="seller-login-email" placeholder="votre@email.com">
+                    <div class="error-message" id="seller-login-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="password">Mot de passe</label>
+                    <input type="password" class="form-input" id="seller-login-password" placeholder="Votre mot de passe">
+                    <div class="error-message" id="seller-login-password-error"></div>
+                </div>
+                <button class="btn btn-large" onclick="loginSeller()" data-translate="login">Se connecter</button>
+                <div class="auth-switch">
+                    <p data-translate="no_account">Pas encore de compte ? <a onclick="showSellerRegister()" data-translate="create_account">Créer un compte</a></p>
+                </div>
+            </div>
+           
+            <!-- Formulaire d'inscription vendeur -->
+            <div id="seller-register" class="form-container" style="display: none;">
+                <h3 style="text-align: center; margin-bottom: 20px;" data-translate="seller_register">Inscription Vendeur</h3>
+                <div class="form-group">
+                    <label class="form-label" data-translate="farm_name">Nom de l'exploitation</label>
+                    <input type="text" class="form-input" id="seller-register-farm" placeholder="Nom de votre ferme/exploitation">
+                    <div class="error-message" id="seller-register-farm-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="your_name">Votre nom</label>
+                    <input type="text" class="form-input" id="seller-register-name" placeholder="Votre nom complet">
+                    <div class="error-message" id="seller-register-name-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="email">Email</label>
+                    <input type="email" class="form-input" id="seller-register-email" placeholder="votre@email.com">
+                    <div class="error-message" id="seller-register-email-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="region">Région</label>
+                    <select class="form-input" id="seller-register-region">
+                        <option value="" data-translate="select_region">Sélectionnez votre région</option>
+                        <option value="Tunis">Tunis</option>
+                        <option value="Sfax">Sfax</option>
+                        <option value="Sousse">Sousse</option>
+                        <option value="Kairouan">Kairouan</option>
+                        <option value="Béja">Béja</option>
+                        <option value="Nabeul">Nabeul</option>
+                        <option value="Zaghouan">Zaghouan</option>
+                    </select>
+                    <div class="error-message" id="seller-register-region-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="password">Mot de passe</label>
+                    <input type="password" class="form-input" id="seller-register-password" placeholder="Minimum 8 caractères">
+                    <div class="error-message" id="seller-register-password-error"></div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-translate="confirm_password">Confirmer le mot de passe</label>
+                    <input type="password" class="form-input" id="seller-register-confirm-password" placeholder="Confirmez votre mot de passe">
+                    <div class="error-message" id="seller-register-confirm-password-error"></div>
+                </div>
+                <button class="btn btn-large" onclick="registerSeller()" data-translate="create_account">Créer mon compte</button>
+                <div class="auth-switch">
+                    <p data-translate="already_account">Déjà un compte ? <a onclick="showSellerLogin()" data-translate="login">Se connecter</a></p>
+                </div>
+            </div>
+           
+            <div id="seller-content" style="display: none;">
+                <div class="product-form">
+                    <h3 style="margin-bottom: 20px;" data-translate="add_product">Ajouter un produit</h3>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="category">Catégorie</label>
+                        <select class="form-input" id="product-category">
+                            <option value="" data-translate="select_category">Sélectionnez une catégorie</option>
+                            <option value="legumes" data-translate="vegetables">Légumes</option>
+                            <option value="fruits" data-translate="fruits">Fruits</option>
+                            <option value="cereales" data-translate="cereals">Céréales</option>
+                            <option value="huiles" data-translate="oils">Huiles</option>
+                            <option value="produits-laitiers" data-translate="dairy">Produits laitiers</option>
+                            <option value="epices" data-translate="spices">Épices</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="product_name">Nom du produit</label>
+                        <input type="text" class="form-input" id="product-name" placeholder="Ex: Tomates bio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="price">Prix (DT)</label>
+                        <input type="number" class="form-input" id="product-price" placeholder="Ex: 5.50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="description">Description</label>
+                        <textarea class="form-input" id="product-description" rows="3" placeholder="Décrivez votre produit..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" data-translate="product_image">Photo du produit</label>
+                        <div class="file-input" onclick="document.getElementById('product-image').click()" data-translate="click_to_upload">Cliquez pour télécharger une image</div>
+                        <input type="file" id="product-image" accept="image/*" style="display: none;" onchange="showFileName(this)">
+                        <div id="file-name" style="margin-top: 10px;"></div>
+                    </div>
+                    <button class="btn btn-large" onclick="addProduct()" data-translate="add_product">Ajouter le produit</button>
+                </div>
+               
+                <div class="my-products">
+                    <h3 style="margin-bottom: 20px;" data-translate="my_products">Mes produits</h3>
+                    <div class="products-list" id="my-products-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Learning Hub -->
+        <section id="learning-page" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('main-page')">←</button>
+                <h2 class="page-title" data-translate="learning_hub">Learning Hub</h2>
+            </div>
+           
+            <div class="main-section">
+                <p class="main-subtitle" data-translate="learning_subtitle">Découvrez des méthodes d'agriculture intelligente et respectueuse de l'environnement, spécialement conçues pour les femmes agricultrices tunisiennes.</p>
+               
+                <div class="methods-list" id="methods-list"></div>
+            </div>
+        </section>
+
+        <!-- Page détail méthode -->
+        <section id="method-detail-page" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('learning-page')">←</button>
+                <h2 class="page-title" id="method-detail-title"></h2>
+            </div>
+           
+            <div class="method-detail" id="method-detail-content"></div>
+        </section>
+
+        <!-- Page confirmation de commande -->
+        <section id="order-confirmation-page" class="page">
+            <div class="page-header">
+                <button class="back-btn" onclick="showPage('buyer-page')">←</button>
+                <h2 class="page-title" data-translate="order_confirmation">Confirmation de commande</h2>
+            </div>
+           
+            <div class="order-confirmation" id="order-confirmation-content">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Base de données des utilisateurs (en mémoire)
+        const usersDatabase = {
+            buyers: [
+                // Exemple d'acheteur pré-enregistré
+                {
+                    email: "acheteur@demo.com",
+                    password: "password123",
+                    name: "Acheteur Demo",
+                    type: "buyer"
+                }
+            ],
+            sellers: [
+                // Exemple de vendeur pré-enregistré
+                {
+                    email: "vendeur@demo.com",
+                    password: "password123",
+                    name: "Vendeur Demo",
+                    farm: "Ferme Demo",
+                    region: "Tunis",
+                    type: "seller"
+                }
+            ]
+        };
+
+        // Utilisateur actuellement connecté
+        let currentUser = null;
+
+        // Données des produits (stockage en mémoire)
+        let productsDatabase = [
+            // Produits initiaux
+            {
+                id: 1,
+                name: 'Tomates bio',
+                price: 3.5,
+                farmer: 'Mohamed Ben Ammar',
+                farmerId: 'farmer-x',
+                category: 'legumes',
+                description: 'Tomates cultivées sans pesticides',
+                image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                id: 2,
+                name: 'Pommes de terre',
+                price: 2.0,
+                farmer: 'Ali Trabelsi',
+                farmerId: 'farmer-z',
+                category: 'legumes',
+                description: 'Pommes de terre de saison',
+                image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+            },
+            {
+                id: 3,
+                name: 'Huile d\'olive',
+                price: 18.0,
+                farmer: 'Mohamed Ben Ammar',
+                farmerId: 'farmer-x',
+                category: 'huiles',
+                description: 'Huile d\'olive extra vierge',
+                image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aHVpbGUlMjBkJTIwb2xpdmV8ZW58MHx8MHx8fDA%3D'
+            },
+            {
+                id: 4,
+                name: 'Oranges',
+                price: 2.5,
+                farmer: 'Fatima Zghal',
+                farmerId: 'farmer-y',
+                category: 'fruits',
+                description: 'Oranges juteuses et sucrées',
+                image: 'https://images.unsplash.com/photo-1547514701-42782101795e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+            }
+        ];
+
+        // Données des catégories
+        const productCategories = [
+            {
+                id: 'legumes',
+                name: 'Légumes',
+                icon: '<i class="fas fa-carrot"></i>'
+            },
+            {
+                id: 'fruits',
+                name: 'Fruits',
+                icon: '<i class="fas fa-apple-alt"></i>'
+            },
+            {
+                id: 'cereales',
+                name: 'Céréales',
+                icon: '<i class="fas fa-seedling"></i>'
+            },
+            {
+                id: 'huiles',
+                name: 'Huiles',
+                icon: '<i class="fas fa-oil-can"></i>'
+            },
+            {
+                id: 'produits-laitiers',
+                name: 'Produits laitiers',
+                icon: '<i class="fas fa-cheese"></i>'
+            },
+            {
+                id: 'epices',
+                name: 'Épices',
+                icon: '<i class="fas fa-mortar-pestle"></i>'
+            }
+        ];
+
+        // Données des agriculteurs
+        const farmersData = {
+            'farmer-x': {
+                name: 'Mohamed Ben Ammar',
+                location: 'Zaghouan, Tunisie',
+                description: 'Spécialisé dans les produits biologiques et l\'huile d\'olive'
+            },
+            'farmer-y': {
+                name: 'Fatima Zghal',
+                location: 'Nabeul, Tunisie',
+                description: 'Productrice d\'agrumes de qualité et de fruits de saison'
+            },
+            'farmer-z': {
+                name: 'Ali Trabelsi',
+                location: 'Béja, Tunisie',
+                description: 'Céréales, légumes de saison et produits laitiers'
+            }
+        };
+
+        // Données complètes des méthodes smart farming
+        const farmingMethods = [
+            {
+                id: 'precision-agriculture',
+                title: 'Agriculture de précision',
+                image: 'https://images.unsplash.com/photo-1586771107445-d3ca888129e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                description: "L'agriculture de précision utilise des technologies comme les capteurs, drones et GPS pour optimiser l'utilisation des ressources (eau, engrais) et augmenter les rendements tout en réduisant les coûts.",
+                details: [
+                    "L'agriculture de précision permet d'appliquer les bonnes quantités d'intrants au bon endroit et au bon moment.",
+                    "Elle utilise des données en temps réel pour prendre des décisions éclairées.",
+                    "Réduit l'impact environnemental en minimisant l'utilisation d'engrais et de pesticides.",
+                    "Augmente l'efficacité et la rentabilité des exploitations agricoles."
+                ],
+                videoUrl: 'https://www.youtube.com/embed/WhAfZhFxHTs'
+            },
+            {
+                id: 'agroforestry',
+                title: 'Agroforesterie',
+                image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                description: "Intégrez des arbres dans vos systèmes agricoles pour améliorer la biodiversité, la fertilité des sols et la résilience climatique. Particulièrement adapté aux régions arides de Tunisie.",
+                details: [
+                    "Combinaison d'arbres et de cultures pour créer un écosystème plus résilient.",
+                    "Améliore la fertilité du sol grâce à la fixation d'azote et à la matière organique.",
+                    "Fournit de l'ombre et réduit l'évaporation de l'eau.",
+                    "Crée des habitats pour la faune bénéfique."
+                ],
+                videoUrl: 'https://www.youtube.com/embed/mx3IHgO2zeQ'
+            },
+            {
+                id: 'integrated-pest-management',
+                title: 'Gestion intégrée des ravageurs',
+                image: 'https://images.unsplash.com/photo-1587334894130-1c43e0c76c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                description: "Réduisez l'utilisation de pesticides en combinant des méthodes biologiques, culturales et mécaniques pour contrôler les ravageurs. Protégez votre santé et l'environnement.",
+                details: [
+                    "Surveillance régulière des cultures pour détecter les problèmes tôt.",
+                    "Utilisation d'insectes bénéfiques pour contrôler les ravageurs.",
+                    "Rotation des cultures pour briser les cycles des ravageurs.",
+                    "Utilisation de pesticides comme dernier recours seulement."
+                ],
+                videoUrl: 'https://www.youtube.com/embed/EiEObwJVrpM'
+            },
+            {
+                id: 'water-management',
+                title: 'Gestion intelligente de l\'eau',
+                image: 'https://images.unsplash.com/photo-1561731216-c53c6d57caf6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                description: "Techniques d'irrigation efficaces pour économiser l'eau dans les régions arides de Tunisie.",
+                details: [
+                    "Utilisation de systèmes d'irrigation goutte-à-goutte pour réduire la consommation d'eau.",
+                    "Récupération des eaux de pluie pour l'irrigation.",
+                    "Suivi de l'humidité du sol pour optimiser l'arrosage.",
+                    "Choix de cultures adaptées aux conditions climatiques locales."
+                ],
+                videoUrl: 'https://www.youtube.com/embed/5hAeK29rH1s'
+            },
+            {
+                id: 'organic-farming',
+                title: 'Agriculture biologique',
+                image: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
+                description: "Méthodes de culture sans produits chimiques pour préserver la santé des sols et des consommateurs.",
+                details: [
+                    "Utilisation de compost et d'engrais naturels pour enrichir le sol.",
+                    "Rotation des cultures pour maintenir la fertilité du sol.",
+                    "Lutte biologique contre les ravageurs avec des prédateurs naturels.",
+                    "Préservation de la biodiversité dans les écosystèmes agricoles."
+                ],
+                videoUrl: 'https://www.youtube.com/embed/WhBk1Rp1-UE'
+            }
+        ];
+
+        // Traductions
+        const translations = {
+            fr: {
+                welcome: "Bienvenue sur Olivine",
+                subtitle: "La plateforme qui connecte les agriculteurs tunisiens et les acheteurs, et promeut des méthodes agricoles durables et intelligentes.",
+                buyer: "Acheteur",
+                buyer_description: "Achetez des produits frais directement auprès des agriculteurs locaux de votre région.",
+                seller: "Vendeur",
+                seller_description: "Vendez vos produits agricoles et connectez-vous avec des acheteurs locaux.",
+                learning_hub: "Learning Hub",
+                learning_description: "Découvrez des méthodes d'agriculture intelligente et respectueuse de l'environnement.",
+                buyer_space: "Espace Acheteur",
+                buyer_login: "Connexion Acheteur",
+                email: "Email",
+                password: "Mot de passe",
+                login: "Se connecter",
+                no_account: "Pas encore de compte ?",
+                create_account: "Créer un compte",
+                buyer_register: "Inscription Acheteur",
+                full_name: "Nom complet",
+                confirm_password: "Confirmer le mot de passe",
+                already_account: "Déjà un compte ?",
+                product_categories: "Catégories de produits",
+                farmers_nearby: "Agriculteurs près de chez vous",
+                your_cart: "Votre Panier",
+                total: "Total",
+                place_order: "Passer la commande",
+                seller_space: "Espace Vendeur",
+                seller_login: "Connexion Vendeur",
+                seller_register: "Inscription Vendeur",
+                farm_name: "Nom de l'exploitation",
+                your_name: "Votre nom",
+                region: "Région",
+                select_region: "Sélectionnez votre région",
+                add_product: "Ajouter un produit",
+                category: "Catégorie",
+                select_category: "Sélectionnez une catégorie",
+                vegetables: "Légumes",
+                fruits: "Fruits",
+                cereals: "Céréales",
+                oils: "Huiles",
+                dairy: "Produits laitiers",
+                spices: "Épices",
+                product_name: "Nom du produit",
+                price: "Prix (DT)",
+                description: "Description",
+                product_image: "Photo du produit",
+                click_to_upload: "Cliquez pour télécharger une image",
+                my_products: "Mes produits",
+                learning_subtitle: "Découvrez des méthodes d'agriculture intelligente et respectueuse de l'environnement, spécialement conçues pour les femmes agricultrices tunisiennes.",
+                order_confirmation: "Confirmation de commande",
+                order_success: "Commande confirmée avec succès!",
+                payment_method: "Méthode de paiement",
+                cash_on_delivery: "Paiement en espèces à la livraison",
+                thank_you: "Merci pour votre commande!",
+                continue_shopping: "Continuer vos achats"
+            },
+            en: {
+                welcome: "Welcome to Olivine",
+                subtitle: "The platform connecting Tunisian farmers and buyers, promoting sustainable and smart farming methods.",
+                buyer: "Buyer",
+                buyer_description: "Buy fresh products directly from local farmers in your area.",
+                seller: "Seller",
+                seller_description: "Sell your agricultural products and connect with local buyers.",
+                learning_hub: "Learning Hub",
+                learning_description: "Discover smart and environmentally friendly farming methods.",
+                buyer_space: "Buyer Space",
+                buyer_login: "Buyer Login",
+                email: "Email",
+                password: "Password",
+                login: "Login",
+                no_account: "No account yet?",
+                create_account: "Create account",
+                buyer_register: "Buyer Registration",
+                full_name: "Full name",
+                confirm_password: "Confirm password",
+                already_account: "Already have an account?",
+                product_categories: "Product categories",
+                farmers_nearby: "Farmers near you",
+                your_cart: "Your Cart",
+                total: "Total",
+                place_order: "Place order",
+                seller_space: "Seller Space",
+                seller_login: "Seller Login",
+                seller_register: "Seller Registration",
+                farm_name: "Farm name",
+                your_name: "Your name",
+                region: "Region",
+                select_region: "Select your region",
+                add_product: "Add product",
+                category: "Category",
+                select_category: "Select a category",
+                vegetables: "Vegetables",
+                fruits: "Fruits",
+                cereals: "Cereals",
+                oils: "Oils",
+                dairy: "Dairy products",
+                spices: "Spices",
+                product_name: "Product name",
+                price: "Price (DT)",
+                description: "Description",
+                product_image: "Product image",
+                click_to_upload: "Click to upload an image",
+                my_products: "My products",
+                learning_subtitle: "Discover smart and environmentally friendly farming methods, specially designed for Tunisian women farmers.",
+                order_confirmation: "Order confirmation",
+                order_success: "Order confirmed successfully!",
+                payment_method: "Payment method",
+                cash_on_delivery: "Cash on delivery",
+                thank_you: "Thank you for your order!",
+                continue_shopping: "Continue shopping"
+            },
+            ar: {
+                welcome: "مرحبًا بكم في أوليفين",
+                subtitle: "المنصة التي تربط المزارعين التونسيين والمشترين، وتعزز أساليب الزراعة المستدامة والذكية.",
+                buyer: "مشتري",
+                buyer_description: "اشترِ المنتجات الطازجة مباشرة من المزارعين المحليين في منطقتك.",
+                seller: "بائع",
+                seller_description: "بيع منتجاتك الزراعية وتواصل مع المشترين المحليين.",
+                learning_hub: "مركز التعلم",
+                learning_description: "اكتشف أساليب الزراعة الذكية والصديقة للبيئة.",
+                buyer_space: "مساحة المشتري",
+                buyer_login: "تسجيل دخول المشتري",
+                email: "البريد الإلكتروني",
+                password: "كلمة المرور",
+                login: "تسجيل الدخول",
+                no_account: "ليس لديك حساب بعد؟",
+                create_account: "إنشاء حساب",
+                buyer_register: "تسجيل المشتري",
+                full_name: "الاسم الكامل",
+                confirm_password: "تأكيد كلمة المرور",
+                already_account: "لديك حساب بالفعل؟",
+                product_categories: "فئات المنتجات",
+                farmers_nearby: "المزارعون بالقرب منك",
+                your_cart: "سلة التسوق الخاصة بك",
+                total: "المجموع",
+                place_order: "تقديم الطلب",
+                seller_space: "مساحة البائع",
+                seller_login: "تسجيل دخول البائع",
+                seller_register: "تسجيل البائع",
+                farm_name: "اسم المزرعة",
+                your_name: "اسمك",
+                region: "المنطقة",
+                select_region: "اختر منطقتك",
+                add_product: "إضافة منتج",
+                category: "الفئة",
+                select_category: "اختر فئة",
+                vegetables: "الخضروات",
+                fruits: "الفواكه",
+                cereals: "الحبوب",
+                oils: "الزيوت",
+                dairy: "منتجات الألبان",
+                spices: "التوابل",
+                product_name: "اسم المنتج",
+                price: "السعر (د.ت)",
+                description: "الوصف",
+                product_image: "صورة المنتج",
+                click_to_upload: "انقر لتحميل صورة",
+                my_products: "منتجاتي",
+                learning_subtitle: "اكتشف أساليب الزراعة الذكية والصديقة للبيئة، المصممة خصيصًا للمزارعات التونسيات.",
+                order_confirmation: "تأكيد الطلب",
+                order_success: "تم تأكيد الطلب بنجاح!",
+                payment_method: "طريقة الدفع",
+                cash_on_delivery: "الدفع نقدًا عند التسليم",
+                thank_you: "شكرًا لك على طلبك!",
+                continue_shopping: "مواصلة التسوق"
+            }
+        };
+
+        let cart = [];
+        let currentLang = 'fr';
+
+        // Fonctions de validation
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8;
+        }
+
+        function validateName(name) {
+            return name.trim().length >= 2;
+        }
+
+        // Fonctions d'affichage des formulaires
+        function showBuyerLogin() {
+            document.getElementById('buyer-register').style.display = 'none';
+            document.getElementById('buyer-login').style.display = 'block';
+        }
+
+        function showBuyerRegister() {
+            document.getElementById('buyer-login').style.display = 'none';
+            document.getElementById('buyer-register').style.display = 'block';
+        }
+
+        function showSellerLogin() {
+            document.getElementById('seller-register').style.display = 'none';
+            document.getElementById('seller-login').style.display = 'block';
+        }
+
+        function showSellerRegister() {
+            document.getElementById('seller-login').style.display = 'none';
+            document.getElementById('seller-register').style.display = 'block';
+        }
+
+        // Fonctions de gestion des erreurs
+        function showError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const errorElement = document.getElementById(inputId + '-error');
+           
+            input.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+        }
+
+        function clearError(inputId) {
+            const input = document.getElementById(inputId);
+            const errorElement = document.getElementById(inputId + '-error');
+           
+            input.classList.remove('error');
+            errorElement.classList.remove('show');
+        }
+
+        // Fonction de connexion acheteur
+        function loginBuyer() {
+            const email = document.getElementById('buyer-login-email').value;
+            const password = document.getElementById('buyer-login-password').value;
+           
+            // Réinitialiser les erreurs
+            clearError('buyer-login-email');
+            clearError('buyer-login-password');
+           
+            let isValid = true;
+           
+            // Validation
+            if (!email) {
+                showError('buyer-login-email', translations[currentLang].email + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('buyer-login-email', currentLang === 'fr' ? 'Format d\'email invalide' : currentLang === 'en' ? 'Invalid email format' : 'تنسيق البريد الإلكتروني غير صالح');
+                isValid = false;
+            }
+           
+            if (!password) {
+                showError('buyer-login-password', translations[currentLang].password + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            }
+           
+            if (!isValid) return;
+           
+            // Vérifier dans la base de données
+            const user = usersDatabase.buyers.find(u => u.email === email && u.password === password);
+           
+            if (user) {
+                currentUser = user;
+                document.getElementById('buyer-login').style.display = 'none';
+                document.getElementById('buyer-content').style.display = 'block';
+                loadCategories();
+                loadFarmers();
+                updateCart();
+                alert(currentLang === 'fr' ? 'Connexion réussie ! Bienvenue ' + user.name :
+                      currentLang === 'en' ? 'Login successful! Welcome ' + user.name :
+                      'تم تسجيل الدخول بنجاح! مرحبًا ' + user.name);
+            } else {
+                showError('buyer-login-password', currentLang === 'fr' ? 'Email ou mot de passe incorrect' :
+                         currentLang === 'en' ? 'Incorrect email or password' :
+                         'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+            }
+        }
+
+        // Fonction d'inscription acheteur
+        function registerBuyer() {
+            const name = document.getElementById('buyer-register-name').value;
+            const email = document.getElementById('buyer-register-email').value;
+            const password = document.getElementById('buyer-register-password').value;
+            const confirmPassword = document.getElementById('buyer-register-confirm-password').value;
+           
+            // Réinitialiser les erreurs
+            clearError('buyer-register-name');
+            clearError('buyer-register-email');
+            clearError('buyer-register-password');
+            clearError('buyer-register-confirm-password');
+           
+            let isValid = true;
+           
+            // Validation
+            if (!validateName(name)) {
+                showError('buyer-register-name', currentLang === 'fr' ? 'Le nom doit contenir au moins 2 caractères' :
+                         currentLang === 'en' ? 'Name must contain at least 2 characters' :
+                         'يجب أن يحتوي الاسم على حرفين على الأقل');
+                isValid = false;
+            }
+           
+            if (!email) {
+                showError('buyer-register-email', translations[currentLang].email + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('buyer-register-email', currentLang === 'fr' ? 'Format d\'email invalide' : currentLang === 'en' ? 'Invalid email format' : 'تنسيق البريد الإلكتروني غير صالح');
+                isValid = false;
+            } else if (usersDatabase.buyers.find(u => u.email === email)) {
+                showError('buyer-register-email', currentLang === 'fr' ? 'Cet email est déjà utilisé' :
+                         currentLang === 'en' ? 'This email is already used' :
+                         'هذا البريد الإلكتروني مستخدم بالفعل');
+                isValid = false;
+            }
+           
+            if (!validatePassword(password)) {
+                showError('buyer-register-password', currentLang === 'fr' ? 'Le mot de passe doit contenir au moins 8 caractères' :
+                         currentLang === 'en' ? 'Password must contain at least 8 characters' :
+                         'يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل');
+                isValid = false;
+            }
+           
+            if (password !== confirmPassword) {
+                showError('buyer-register-confirm-password', currentLang === 'fr' ? 'Les mots de passe ne correspondent pas' :
+                         currentLang === 'en' ? 'Passwords do not match' :
+                         'كلمات المرور غير متطابقة');
+                isValid = false;
+            }
+           
+            if (!isValid) return;
+           
+            // Créer le compte
+            const newUser = {
+                email: email,
+                password: password,
+                name: name,
+                type: 'buyer'
+            };
+           
+            usersDatabase.buyers.push(newUser);
+            currentUser = newUser;
+           
+            // Simuler l'enregistrement dans un backend
+            saveUserToBackend(newUser);
+           
+            document.getElementById('buyer-register').style.display = 'none';
+            document.getElementById('buyer-content').style.display = 'block';
+            loadCategories();
+            loadFarmers();
+            updateCart();
+            alert(currentLang === 'fr' ? 'Compte créé avec succès ! Bienvenue ' + name :
+                  currentLang === 'en' ? 'Account created successfully! Welcome ' + name :
+                  'تم إنشاء الحساب بنجاح! مرحبًا ' + name);
+        }
+
+        // Fonction de connexion vendeur
+        function loginSeller() {
+            const email = document.getElementById('seller-login-email').value;
+            const password = document.getElementById('seller-login-password').value;
+           
+            // Réinitialiser les erreurs
+            clearError('seller-login-email');
+            clearError('seller-login-password');
+           
+            let isValid = true;
+           
+            // Validation
+            if (!email) {
+                showError('seller-login-email', translations[currentLang].email + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('seller-login-email', currentLang === 'fr' ? 'Format d\'email invalide' : currentLang === 'en' ? 'Invalid email format' : 'تنسيق البريد الإلكتروني غير صالح');
+                isValid = false;
+            }
+           
+            if (!password) {
+                showError('seller-login-password', translations[currentLang].password + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            }
+           
+            if (!isValid) return;
+           
+            // Vérifier dans la base de données
+            const user = usersDatabase.sellers.find(u => u.email === email && u.password === password);
+           
+            if (user) {
+                currentUser = user;
+                document.getElementById('seller-login').style.display = 'none';
+                document.getElementById('seller-content').style.display = 'block';
+                loadSellerProducts();
+                alert(currentLang === 'fr' ? 'Connexion réussie ! Bienvenue ' + user.name :
+                      currentLang === 'en' ? 'Login successful! Welcome ' + user.name :
+                      'تم تسجيل الدخول بنجاح! مرحبًا ' + user.name);
+            } else {
+                showError('seller-login-password', currentLang === 'fr' ? 'Email ou mot de passe incorrect' :
+                         currentLang === 'en' ? 'Incorrect email or password' :
+                         'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+            }
+        }
+
+        // Fonction d'inscription vendeur
+        function registerSeller() {
+            const farm = document.getElementById('seller-register-farm').value;
+            const name = document.getElementById('seller-register-name').value;
+            const email = document.getElementById('seller-register-email').value;
+            const region = document.getElementById('seller-register-region').value;
+            const password = document.getElementById('seller-register-password').value;
+            const confirmPassword = document.getElementById('seller-register-confirm-password').value;
+           
+            // Réinitialiser les erreurs
+            clearError('seller-register-farm');
+            clearError('seller-register-name');
+            clearError('seller-register-email');
+            clearError('seller-register-region');
+            clearError('seller-register-password');
+            clearError('seller-register-confirm-password');
+           
+            let isValid = true;
+           
+            // Validation
+            if (!validateName(farm)) {
+                showError('seller-register-farm', currentLang === 'fr' ? 'Le nom de l\'exploitation est requis' :
+                         currentLang === 'en' ? 'Farm name is required' :
+                         'اسم المزرعة مطلوب');
+                isValid = false;
+            }
+           
+            if (!validateName(name)) {
+                showError('seller-register-name', currentLang === 'fr' ? 'Le nom doit contenir au moins 2 caractères' :
+                         currentLang === 'en' ? 'Name must contain at least 2 characters' :
+                         'يجب أن يحتوي الاسم على حرفين على الأقل');
+                isValid = false;
+            }
+           
+            if (!email) {
+                showError('seller-register-email', translations[currentLang].email + ' ' + (currentLang === 'fr' ? 'est requis' : currentLang === 'en' ? 'is required' : 'مطلوب'));
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                showError('seller-register-email', currentLang === 'fr' ? 'Format d\'email invalide' : currentLang === 'en' ? 'Invalid email format' : 'تنسيق البريد الإلكتروني غير صالح');
+                isValid = false;
+            } else if (usersDatabase.sellers.find(u => u.email === email)) {
+                showError('seller-register-email', currentLang === 'fr' ? 'Cet email est déjà utilisé' :
+                         currentLang === 'en' ? 'This email is already used' :
+                         'هذا البريد الإلكتروني مستخدم بالفعل');
+                isValid = false;
+            }
+           
+            if (!region) {
+                showError('seller-register-region', translations[currentLang].region + ' ' + (currentLang === 'fr' ? 'est requise' : currentLang === 'en' ? 'is required' : 'مطلوبة'));
+                isValid = false;
+            }
+           
+            if (!validatePassword(password)) {
+                showError('seller-register-password', currentLang === 'fr' ? 'Le mot de passe doit contenir au moins 8 caractères' :
+                         currentLang === 'en' ? 'Password must contain at least 8 characters' :
+                         'يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل');
+                isValid = false;
+            }
+           
+            if (password !== confirmPassword) {
+                showError('seller-register-confirm-password', currentLang === 'fr' ? 'Les mots de passe ne correspondent pas' :
+                         currentLang === 'en' ? 'Passwords do not match' :
+                         'كلمات المرور غير متطابقة');
+                isValid = false;
+            }
+           
+            if (!isValid) return;
+           
+            // Créer le compte
+            const newUser = {
+                email: email,
+                password: password,
+                name: name,
+                farm: farm,
+                region: region,
+                type: 'seller'
+            };
+           
+            usersDatabase.sellers.push(newUser);
+            currentUser = newUser;
+           
+            // Simuler l'enregistrement dans un backend
+            saveUserToBackend(newUser);
+           
+            document.getElementById('seller-register').style.display = 'none';
+            document.getElementById('seller-content').style.display = 'block';
+            loadSellerProducts();
+            alert(currentLang === 'fr' ? 'Compte créé avec succès ! Bienvenue ' + name :
+                  currentLang === 'en' ? 'Account created successfully! Welcome ' + name :
+                  'تم إنشاء الحساب بنجاح! مرحبًا ' + name);
+        }
+
+        // Fonction pour simuler l'enregistrement dans un backend
+        function saveUserToBackend(user) {
+            // Dans une application réelle, on ferait une requête HTTP vers un serveur
+            console.log('Enregistrement de l\'utilisateur dans le backend:', user);
+            // Simulation d'un délai de réseau
+            setTimeout(() => {
+                console.log('Utilisateur enregistré avec succès dans le backend');
+            }, 500);
+        }
+
+        // Navigation
+        function showPage(pageId) {
+            console.log('Changement vers la page:', pageId);
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+           
+            if (pageId === 'learning-page') {
+                loadFarmingMethods();
+            }
+        }
+
+        // Fonction pour charger les catégories
+        function loadCategories() {
+            const container = document.getElementById('categories-container');
+            container.innerHTML = '';
+           
+            productCategories.forEach(category => {
+                container.innerHTML += `
+                    <div class="category-card" onclick="showCategoryProducts('${category.id}')">
+                        <div class="category-icon">${category.icon}</div>
+                        <div class="category-name">${category.name}</div>
+                    </div>
+                `;
+            });
+        }
+
+        // Fonction pour charger les agriculteurs
+        function loadFarmers() {
+            const container = document.getElementById('farmers-list-container');
+            container.innerHTML = '';
+           
+            Object.keys(farmersData).forEach(farmerId => {
+                const farmer = farmersData[farmerId];
+                container.innerHTML += `
+                    <div class="farmer-card" onclick="showFarmerProducts('${farmerId}')">
+                        <h3 class="farmer-name">${farmer.name}</h3>
+                        <p class="farmer-location">📍 ${farmer.location}</p>
+                        <p>${farmer.description}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // Fonction pour afficher les produits d'une catégorie
+        function showCategoryProducts(categoryId) {
+            const category = productCategories.find(c => c.id === categoryId);
+            document.getElementById('selected-category-name').textContent = category.name;
+           
+            const container = document.getElementById('category-products-container');
+            container.innerHTML = '';
+           
+            const categoryProducts = productsDatabase.filter(product => product.category === categoryId);
+           
+            categoryProducts.forEach(product => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <p class="product-farmer">👨‍🌾 ${product.farmer}</p>
+                        <h4>${product.name}</h4>
+                        <p>${product.price} DT</p>
+                        <p>${product.description}</p>
+                        <button class="add-to-cart" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">${currentLang === 'fr' ? 'Ajouter au panier' : currentLang === 'en' ? 'Add to cart' : 'أضف إلى السلة'}</button>
+                    </div>
+                `;
+            });
+           
+            // Masquer les autres sections et afficher les produits de catégorie
+            document.getElementById('farmers-section').style.display = 'none';
+            document.getElementById('category-products').style.display = 'block';
+        }
+
+        // Fonction pour retourner aux catégories
+        function backToCategories() {
+            document.getElementById('category-products').style.display = 'none';
+            document.getElementById('farmers-section').style.display = 'block';
+        }
+
+        // Fonction pour afficher les produits d'un agriculteur
+        function showFarmerProducts(farmerId) {
+            const farmer = farmersData[farmerId];
+            document.getElementById('selected-farmer-name').textContent = farmer.name;
+           
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+           
+            const farmerProducts = productsDatabase.filter(product => product.farmerId === farmerId);
+           
+            farmerProducts.forEach(product => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <h4>${product.name}</h4>
+                        <p>${product.price} DT</p>
+                        <p>${product.description}</p>
+                        <button class="add-to-cart" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">${currentLang === 'fr' ? 'Ajouter au panier' : currentLang === 'en' ? 'Add to cart' : 'أضف إلى السلة'}</button>
+                    </div>
+                `;
+            });
+           
+            // Masquer les autres sections et afficher les produits de l'agriculteur
+            document.getElementById('farmers-section').style.display = 'none';
+            document.getElementById('farmer-products').style.display = 'block';
+        }
+
+        // Fonction pour retourner aux agriculteurs
+        function backToFarmers() {
+            document.getElementById(
